@@ -118,6 +118,27 @@ public class EvalVisitor extends ConscienceBaseVisitor<ConValue> {
     }
 
     @Override
+    public ConValue visitCompareExpr(ConscienceParser.CompareExprContext ctx) {
+        ConValue left = visit(ctx.expr(0));
+        ConValue right = visit(ctx.expr(1));
+
+        switch (ctx.op.getText()) {
+            case ">":
+                return new ConValue(left.compareTo(right) > 0, Type.BOOLEAN);
+            case "<":
+                return new ConValue(left.compareTo(right) < 0, Type.BOOLEAN);
+            case ">=":
+                return new ConValue(left.compareTo(right) >= 0, Type.BOOLEAN);
+            case "<=":
+                return new ConValue(left.compareTo(right) <= 0, Type.BOOLEAN);
+            case "==":
+                return new ConValue(left.equals(right), Type.BOOLEAN);
+        }
+
+        throw new RuntimeException("not comparable variables: " + left + " and " + right);
+    }
+
+    @Override
     public ConValue visitIdExpr(ConscienceParser.IdExprContext ctx) {
         return scope.resolve(ctx.ID().getText());
     }

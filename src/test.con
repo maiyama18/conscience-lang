@@ -1,13 +1,19 @@
 let a = 1;
 print a * 2;
 
-if true {
+if 2 == 2 {
     print "...";
     let s = "hahaha";
     print s;
     print s + " hihihi";
 }
 
-if false {
+if 2 == 1 {
     print "you dont see it";
+}
+
+let i = 5;
+while i >= 0 {
+    print i;
+    i = i - 1;
 }

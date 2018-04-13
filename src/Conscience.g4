@@ -16,13 +16,14 @@ printStat : 'print' expr ';' ;
 ifStat : 'if' expr '{' block '}' ;
 whileStat : 'while' expr '{' block '}' ;
 
-expr : expr op=('*'|'/'|'%') expr # MulDivModExpr
-     | expr op=('+'|'-') expr     # AddSubExpr
-     | ID                         # IdExpr
-     | INTEGER                    # IntegerExpr
-     | STRING                     # StringExpr
-     | BOOLEAN                    # BooleanExpr
-     | '(' expr ')'               # ParenExpr
+expr : expr op=('*'|'/'|'%') expr             # MulDivModExpr
+     | expr op=('+'|'-') expr                 # AddSubExpr
+     | expr op=('>'|'<'|'<='|'>='|'==') expr  # CompareExpr
+     | ID                                     # IdExpr
+     | INTEGER                                # IntegerExpr
+     | STRING                                 # StringExpr
+     | BOOLEAN                                # BooleanExpr
+     | '(' expr ')'                           # ParenExpr
      ;
 
 
