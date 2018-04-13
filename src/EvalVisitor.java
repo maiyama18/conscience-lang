@@ -79,6 +79,11 @@ public class EvalVisitor extends ConscienceBaseVisitor<Integer> {
         return Integer.valueOf(ctx.INT().getText());
     }
 
+    @Override
+    public Integer visitParenExpr(ConscienceParser.ParenExprContext ctx) {
+        return visit(ctx.expr());
+    }
+
     public static void main(String[] args) throws IOException {
         String fileName = args[0];
 

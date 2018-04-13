@@ -14,6 +14,7 @@ expr : expr op=('*'|'/'|'%') expr # MulDivModExpr
      | expr op=('+'|'-') expr     # AddSubExpr
      | ID                         # IdExpr
      | INT                        # IntExpr
+     | '(' expr ')'               # ParenExpr
      ;
 
 

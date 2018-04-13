@@ -61,6 +61,13 @@ public interface ConscienceVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitIntExpr(ConscienceParser.IntExprContext ctx);
 	/**
+	 * Visit a parse tree produced by the {@code ParenExpr}
+	 * labeled alternative in {@link ConscienceParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParenExpr(ConscienceParser.ParenExprContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code AddSubExpr}
 	 * labeled alternative in {@link ConscienceParser#expr}.
 	 * @param ctx the parse tree
