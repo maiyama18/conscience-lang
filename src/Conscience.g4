@@ -6,9 +6,13 @@ block : stat+ ;
 
 stat : assignStat
      | printStat
+     | ifStat
+     | whileStat
      ;
 assignStat : ID '=' expr ';' ;
 printStat : 'print' expr ';' ;
+ifStat : 'if' expr '{' block '}' ;
+whileStat : 'while' expr '{' block '}' ;
 
 expr : expr op=('*'|'/'|'%') expr # MulDivModExpr
      | expr op=('+'|'-') expr     # AddSubExpr

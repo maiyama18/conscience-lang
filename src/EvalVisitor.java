@@ -42,6 +42,24 @@ public class EvalVisitor extends ConscienceBaseVisitor<Integer> {
     }
 
     @Override
+    public Integer visitIfStat(ConscienceParser.IfStatContext ctx) {
+        if (!visit(ctx.expr()).equals(0)) {
+            visit(ctx.block());
+        }
+
+        return 0;
+    }
+
+    @Override
+    public Integer visitWhileStat(ConscienceParser.WhileStatContext ctx) {
+        while (!visit(ctx.expr()).equals(0)) {
+            visit(ctx.block());
+        }
+
+        return 0;
+    }
+
+    @Override
     public Integer visitMulDivModExpr(ConscienceParser.MulDivModExprContext ctx) {
         switch (ctx.op.getText()) {
             case "*":

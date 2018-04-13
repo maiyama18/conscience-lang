@@ -40,6 +40,18 @@ public interface ConscienceVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitPrintStat(ConscienceParser.PrintStatContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ConscienceParser#ifStat}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIfStat(ConscienceParser.IfStatContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ConscienceParser#whileStat}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitWhileStat(ConscienceParser.WhileStatContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code IdExpr}
 	 * labeled alternative in {@link ConscienceParser#expr}.
 	 * @param ctx the parse tree
