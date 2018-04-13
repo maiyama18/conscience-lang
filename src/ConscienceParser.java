@@ -16,8 +16,8 @@ public class ConscienceParser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, ID=7, INT=8, NEWLINE=9, 
-		WS=10;
+		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, ID=8, INT=9, NEWLINE=10, 
+		WS=11;
 	public static final int
 		RULE_file = 0, RULE_block = 1, RULE_stat = 2, RULE_assignStat = 3, RULE_printStat = 4, 
 		RULE_expr = 5;
@@ -26,10 +26,11 @@ public class ConscienceParser extends Parser {
 	};
 
 	private static final String[] _LITERAL_NAMES = {
-		null, "'='", "'print'", "'*'", "'/'", "'+'", "'-'"
+		null, "'='", "'print'", "'*'", "'/'", "'%'", "'+'", "'-'"
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
-		null, null, null, null, null, null, null, "ID", "INT", "NEWLINE", "WS"
+		null, null, null, null, null, null, null, null, "ID", "INT", "NEWLINE", 
+		"WS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -318,7 +319,16 @@ public class ConscienceParser extends Parser {
 			super.copyFrom(ctx);
 		}
 	}
-	public static class MulDivExprContext extends ExprContext {
+	public static class IdExprContext extends ExprContext {
+		public TerminalNode ID() { return getToken(ConscienceParser.ID, 0); }
+		public IdExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ConscienceVisitor ) return ((ConscienceVisitor<? extends T>)visitor).visitIdExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class MulDivModExprContext extends ExprContext {
 		public Token op;
 		public List<ExprContext> expr() {
 			return getRuleContexts(ExprContext.class);
@@ -326,19 +336,10 @@ public class ConscienceParser extends Parser {
 		public ExprContext expr(int i) {
 			return getRuleContext(ExprContext.class,i);
 		}
-		public MulDivExprContext(ExprContext ctx) { copyFrom(ctx); }
+		public MulDivModExprContext(ExprContext ctx) { copyFrom(ctx); }
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ConscienceVisitor ) return ((ConscienceVisitor<? extends T>)visitor).visitMulDivExpr(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class IdExprContext extends ExprContext {
-		public TerminalNode ID() { return getToken(ConscienceParser.ID, 0); }
-		public IdExprContext(ExprContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ConscienceVisitor ) return ((ConscienceVisitor<? extends T>)visitor).visitIdExpr(this);
+			if ( visitor instanceof ConscienceVisitor ) return ((ConscienceVisitor<? extends T>)visitor).visitMulDivModExpr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -422,15 +423,15 @@ public class ConscienceParser extends Parser {
 					switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
 					case 1:
 						{
-						_localctx = new MulDivExprContext(new ExprContext(_parentctx, _parentState));
+						_localctx = new MulDivModExprContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
 						setState(37);
 						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
 						setState(38);
-						((MulDivExprContext)_localctx).op = _input.LT(1);
+						((MulDivModExprContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
-						if ( !(_la==T__2 || _la==T__3) ) {
-							((MulDivExprContext)_localctx).op = (Token)_errHandler.recoverInline(this);
+						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__2) | (1L << T__3) | (1L << T__4))) != 0)) ) {
+							((MulDivModExprContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 						}
 						else {
 							if ( _input.LA(1)==Token.EOF ) matchedEOF = true;
@@ -450,7 +451,7 @@ public class ConscienceParser extends Parser {
 						setState(41);
 						((AddSubExprContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
-						if ( !(_la==T__4 || _la==T__5) ) {
+						if ( !(_la==T__5 || _la==T__6) ) {
 							((AddSubExprContext)_localctx).op = (Token)_errHandler.recoverInline(this);
 						}
 						else {
@@ -500,17 +501,17 @@ public class ConscienceParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\f\63\4\2\t\2\4\3"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\r\63\4\2\t\2\4\3"+
 		"\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\3\2\3\2\3\3\6\3\22\n\3\r\3\16\3\23"+
 		"\3\4\3\4\5\4\30\n\4\3\5\3\5\3\5\3\5\3\5\3\6\3\6\3\6\3\6\3\7\3\7\3\7\5"+
 		"\7&\n\7\3\7\3\7\3\7\3\7\3\7\3\7\7\7.\n\7\f\7\16\7\61\13\7\3\7\2\3\f\b"+
-		"\2\4\6\b\n\f\2\4\3\2\5\6\3\2\7\b\2\61\2\16\3\2\2\2\4\21\3\2\2\2\6\27\3"+
+		"\2\4\6\b\n\f\2\4\3\2\5\7\3\2\b\t\2\61\2\16\3\2\2\2\4\21\3\2\2\2\6\27\3"+
 		"\2\2\2\b\31\3\2\2\2\n\36\3\2\2\2\f%\3\2\2\2\16\17\5\4\3\2\17\3\3\2\2\2"+
 		"\20\22\5\6\4\2\21\20\3\2\2\2\22\23\3\2\2\2\23\21\3\2\2\2\23\24\3\2\2\2"+
 		"\24\5\3\2\2\2\25\30\5\b\5\2\26\30\5\n\6\2\27\25\3\2\2\2\27\26\3\2\2\2"+
-		"\30\7\3\2\2\2\31\32\7\t\2\2\32\33\7\3\2\2\33\34\5\f\7\2\34\35\7\13\2\2"+
-		"\35\t\3\2\2\2\36\37\7\4\2\2\37 \5\f\7\2 !\7\13\2\2!\13\3\2\2\2\"#\b\7"+
-		"\1\2#&\7\t\2\2$&\7\n\2\2%\"\3\2\2\2%$\3\2\2\2&/\3\2\2\2\'(\f\6\2\2()\t"+
+		"\30\7\3\2\2\2\31\32\7\n\2\2\32\33\7\3\2\2\33\34\5\f\7\2\34\35\7\f\2\2"+
+		"\35\t\3\2\2\2\36\37\7\4\2\2\37 \5\f\7\2 !\7\f\2\2!\13\3\2\2\2\"#\b\7\1"+
+		"\2#&\7\n\2\2$&\7\13\2\2%\"\3\2\2\2%$\3\2\2\2&/\3\2\2\2\'(\f\6\2\2()\t"+
 		"\2\2\2).\5\f\7\7*+\f\5\2\2+,\t\3\2\2,.\5\f\7\6-\'\3\2\2\2-*\3\2\2\2.\61"+
 		"\3\2\2\2/-\3\2\2\2/\60\3\2\2\2\60\r\3\2\2\2\61/\3\2\2\2\7\23\27%-/";
 	public static final ATN _ATN =

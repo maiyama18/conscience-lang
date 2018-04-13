@@ -10,10 +10,10 @@ stat : assignStat
 assignStat : ID '=' expr NEWLINE ;
 printStat : 'print' expr NEWLINE ;
 
-expr : expr op=('*'|'/') expr # MulDivExpr
-     | expr op=('+'|'-') expr # AddSubExpr
-     | ID                             # IdExpr
-     | INT                            # IntExpr
+expr : expr op=('*'|'/'|'%') expr # MulDivModExpr
+     | expr op=('+'|'-') expr     # AddSubExpr
+     | ID                         # IdExpr
+     | INT                        # IntExpr
      ;
 
 

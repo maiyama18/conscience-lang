@@ -42,19 +42,31 @@ public class EvalVisitor extends ConscienceBaseVisitor<Integer> {
     }
 
     @Override
-    public Integer visitMulDivExpr(ConscienceParser.MulDivExprContext ctx) {
-        return ctx.op.getText().equals("*")
-                ? visit(ctx.expr(0)) * visit(ctx.expr(1))
-                : visit(ctx.expr(0)) / visit(ctx.expr(1))
-                ;
+    public Integer visitMulDivModExpr(ConscienceParser.MulDivModExprContext ctx) {
+        switch (ctx.op.getText()) {
+            case "*":
+                return visit(ctx.expr(0)) * visit(ctx.expr(1));
+            case "/":
+                return visit(ctx.expr(0)) / visit(ctx.expr(1));
+            case "%":
+                return visit(ctx.expr(0)) % visit(ctx.expr(1));
+        }
+
+        System.out.println("undefined operator: " + ctx.op.getText());
+        return null;
     }
 
     @Override
     public Integer visitAddSubExpr(ConscienceParser.AddSubExprContext ctx) {
-        return ctx.op.getText().equals("+")
-                ? visit(ctx.expr(0)) + visit(ctx.expr(1))
-                : visit(ctx.expr(0)) - visit(ctx.expr(1))
-                ;
+        switch (ctx.op.getText()) {
+            case "+":
+                return visit(ctx.expr(0)) + visit(ctx.expr(1));
+            case "-":
+                return visit(ctx.expr(0)) - visit(ctx.expr(1));
+        }
+
+        System.out.println("undefined operator: " + ctx.op.getText());
+        return null;
     }
 
     @Override
