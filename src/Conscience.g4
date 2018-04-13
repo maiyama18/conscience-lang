@@ -7,8 +7,8 @@ block : stat+ ;
 stat : assignStat
      | printStat
      ;
-assignStat : ID '=' expr NEWLINE ;
-printStat : 'print' expr NEWLINE ;
+assignStat : ID '=' expr ';' ;
+printStat : 'print' expr ';' ;
 
 expr : expr op=('*'|'/'|'%') expr # MulDivModExpr
      | expr op=('+'|'-') expr     # AddSubExpr
@@ -19,5 +19,4 @@ expr : expr op=('*'|'/'|'%') expr # MulDivModExpr
 
 ID : [a-zA-Z]+ ;
 INT : [0-9]+ ;
-NEWLINE : '\r'? '\n' ;
-WS : [ \t] -> skip ;
+WS : [ \t\r\n] -> skip ;
