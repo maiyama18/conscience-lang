@@ -5,11 +5,13 @@ file : block ;
 block : stat+ ;
 
 stat : assignStat
+     | mutateStat
      | printStat
      | ifStat
      | whileStat
      ;
-assignStat : ID '=' expr ';' ;
+assignStat : 'let' ID '=' expr ';' ;
+mutateStat : ID '=' expr ';' ;
 printStat : 'print' expr ';' ;
 ifStat : 'if' expr '{' block '}' ;
 whileStat : 'while' expr '{' block '}' ;

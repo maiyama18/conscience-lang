@@ -8,7 +8,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EvalVisitor extends ConscienceBaseVisitor<Integer> {
-    private Map<String, Integer> variables = new HashMap<>();
+    private Scope scope;
+
+    public EvalVisitor(Scope scope) {
+        this.scope = scope;
+    }
 
     @Override
     public Integer visitFile(ConscienceParser.FileContext ctx) {
@@ -17,8 +21,10 @@ public class EvalVisitor extends ConscienceBaseVisitor<Integer> {
 
     @Override
     public Integer visitBlock(ConscienceParser.BlockContext ctx) {
+        scope = new Scope(scope);
         ctx.stat().forEach(stat -> visit(stat));
 
+        scope = scope.getParent();
         return 0;
     }
 
@@ -27,7 +33,17 @@ public class EvalVisitor extends ConscienceBaseVisitor<Integer> {
         String var = ctx.ID().getText();
         Integer value = visit(ctx.expr());
 
-        variables.put(var, value);
+        scope.assign(var, value);
+
+        return value;
+    }
+
+    @Override
+    public Integer visitMutateStat(ConscienceParser.MutateStatContext ctx) {
+        String var = ctx.ID().getText();
+        Integer value = visit(ctx.expr());
+
+        scope.mutate(var, value);
 
         return value;
     }
@@ -89,7 +105,7 @@ public class EvalVisitor extends ConscienceBaseVisitor<Integer> {
 
     @Override
     public Integer visitIdExpr(ConscienceParser.IdExprContext ctx) {
-        return variables.get(ctx.ID().getText());
+        return scope.resolve(ctx.ID().getText());
     }
 
     @Override
@@ -111,7 +127,7 @@ public class EvalVisitor extends ConscienceBaseVisitor<Integer> {
         ConscienceParser parser = new ConscienceParser(tokens);
 
         ParseTree tree = parser.file();
-        EvalVisitor visitor = new EvalVisitor();
+        EvalVisitor visitor = new EvalVisitor(new Scope());
         visitor.visit(tree);
     }
 }
