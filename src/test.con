@@ -1,19 +1,26 @@
-let a = 1;
-print a * 2;
-
-if 2 == 2 {
-    print "...";
-    let s = "hahaha";
-    print s;
-    print s + " hihihi";
+fn add = (a, b) => {
+    let c = a + b;
+    c;
 }
 
-if 2 == 1 {
-    print "you dont see it";
+let x = 1;
+let y = 2;
+let z = 3;
+
+if (add(x, y) == z) {
+    print "ok!!!";
 }
 
-let i = 5;
-while i >= 0 {
-    print i;
-    i = i - 1;
+print "count" + "down" + "...";
+while (z >= 0) {
+    print z;
+    z = z - 1;
 }
+
+let s = "global";
+print "in global scope: " + s;
+if (true) {
+    let s = "block";
+    print "in block scope: " + s;
+}
+print "in global scope again: " + s;

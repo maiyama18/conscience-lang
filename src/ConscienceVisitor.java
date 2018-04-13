@@ -58,6 +58,30 @@ public interface ConscienceVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitWhileStat(ConscienceParser.WhileStatContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link ConscienceParser#fnDefStat}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFnDefStat(ConscienceParser.FnDefStatContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ConscienceParser#exprStat}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitExprStat(ConscienceParser.ExprStatContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ConscienceParser#ids}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitIds(ConscienceParser.IdsContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ConscienceParser#params}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitParams(ConscienceParser.ParamsContext ctx);
+	/**
 	 * Visit a parse tree produced by the {@code StringExpr}
 	 * labeled alternative in {@link ConscienceParser#expr}.
 	 * @param ctx the parse tree
@@ -99,6 +123,13 @@ public interface ConscienceVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitParenExpr(ConscienceParser.ParenExprContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code FnCallExpr}
+	 * labeled alternative in {@link ConscienceParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFnCallExpr(ConscienceParser.FnCallExprContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code AddSubExpr}
 	 * labeled alternative in {@link ConscienceParser#expr}.

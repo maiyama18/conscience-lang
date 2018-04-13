@@ -2,9 +2,11 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.TerminalNode;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class EvalVisitor extends ConscienceBaseVisitor<ConValue> {
@@ -24,10 +26,11 @@ public class EvalVisitor extends ConscienceBaseVisitor<ConValue> {
     @Override
     public ConValue visitBlock(ConscienceParser.BlockContext ctx) {
         scope = new Scope(scope);
-        ctx.stat().forEach(stat -> visit(stat));
+        ctx.stat().subList(0, ctx.stat().size() - 1).forEach(stat -> visit(stat));
+        ConValue returnValue = visit(ctx.stat().get(ctx.stat().size() - 1));
         scope = scope.getParent();
 
-        return ConValue.VOID;
+        return returnValue;
     }
 
     @Override
@@ -72,6 +75,22 @@ public class EvalVisitor extends ConscienceBaseVisitor<ConValue> {
         }
 
         return ConValue.VOID;
+    }
+
+    @Override
+    public ConValue visitFnDefStat(ConscienceParser.FnDefStatContext ctx) {
+        String name = ctx.ID().getText();
+        List<TerminalNode> params = ctx.ids().ID();
+        ConscienceParser.BlockContext block = ctx.block();
+
+        scope.registerFunction(name, new ConFunction(params, block));
+
+        return ConValue.VOID;
+    }
+
+    @Override
+    public ConValue visitExprStat(ConscienceParser.ExprStatContext ctx) {
+        return visit(ctx.expr());
     }
 
     @Override
@@ -136,6 +155,29 @@ public class EvalVisitor extends ConscienceBaseVisitor<ConValue> {
         }
 
         throw new RuntimeException("not comparable variables: " + left + " and " + right);
+    }
+
+    @Override
+    public ConValue visitFnCallExpr(ConscienceParser.FnCallExprContext ctx) {
+        ConFunction fn = scope.getFunction(ctx.ID().getText());
+        scope = new Scope(scope);
+
+        List<TerminalNode> ids = fn.getParams();
+        List<ConscienceParser.ExprContext> exprCtxs = ctx.params().expr();
+
+        if (ids.size() != exprCtxs.size()) throw new RuntimeException("invalid arguments for function " + ctx.ID().getText());
+
+        for (int i = 0; i < ids.size(); i++) {
+            String var = ids.get(i).getText();
+            ConValue value = visit(exprCtxs.get(i));
+
+            scope.assign(var, value);
+        }
+
+        ConValue returnValue = visit(fn.getBlock());
+        scope = scope.getParent();
+
+        return returnValue;
     }
 
     @Override
