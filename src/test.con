@@ -1,19 +1,13 @@
 let a = 1;
-let b = 10;
-print a;
-print b;
+print a * 2;
 
-if 1 {
-    let a = 2;
-    b = 20
-    print a;
-    print b;
+if true {
+    print "...";
+    let s = "hahaha";
+    print s;
+    print s + " hihihi";
 }
 
-print a;
-print b;
-
-if 1 {
-    print a;
-    print b;
+if false {
+    print "you dont see it";
 }

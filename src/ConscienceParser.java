@@ -17,8 +17,8 @@ public class ConscienceParser extends Parser {
 		new PredictionContextCache();
 	public static final int
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
-		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, ID=16, INT=17, 
-		WS=18;
+		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, BOOLEAN=16, 
+		INTEGER=17, STRING=18, ID=19, WS=20;
 	public static final int
 		RULE_file = 0, RULE_block = 1, RULE_stat = 2, RULE_assignStat = 3, RULE_mutateStat = 4, 
 		RULE_printStat = 5, RULE_ifStat = 6, RULE_whileStat = 7, RULE_expr = 8;
@@ -33,7 +33,7 @@ public class ConscienceParser extends Parser {
 	};
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, null, null, null, null, null, null, null, null, null, null, 
-		null, null, null, null, "ID", "INT", "WS"
+		null, null, null, null, "BOOLEAN", "INTEGER", "STRING", "ID", "WS"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -489,6 +489,24 @@ public class ConscienceParser extends Parser {
 			super.copyFrom(ctx);
 		}
 	}
+	public static class StringExprContext extends ExprContext {
+		public TerminalNode STRING() { return getToken(ConscienceParser.STRING, 0); }
+		public StringExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ConscienceVisitor ) return ((ConscienceVisitor<? extends T>)visitor).visitStringExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
+	public static class IntegerExprContext extends ExprContext {
+		public TerminalNode INTEGER() { return getToken(ConscienceParser.INTEGER, 0); }
+		public IntegerExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ConscienceVisitor ) return ((ConscienceVisitor<? extends T>)visitor).visitIntegerExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 	public static class IdExprContext extends ExprContext {
 		public TerminalNode ID() { return getToken(ConscienceParser.ID, 0); }
 		public IdExprContext(ExprContext ctx) { copyFrom(ctx); }
@@ -510,15 +528,6 @@ public class ConscienceParser extends Parser {
 		@Override
 		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
 			if ( visitor instanceof ConscienceVisitor ) return ((ConscienceVisitor<? extends T>)visitor).visitMulDivModExpr(this);
-			else return visitor.visitChildren(this);
-		}
-	}
-	public static class IntExprContext extends ExprContext {
-		public TerminalNode INT() { return getToken(ConscienceParser.INT, 0); }
-		public IntExprContext(ExprContext ctx) { copyFrom(ctx); }
-		@Override
-		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
-			if ( visitor instanceof ConscienceVisitor ) return ((ConscienceVisitor<? extends T>)visitor).visitIntExpr(this);
 			else return visitor.visitChildren(this);
 		}
 	}
@@ -548,6 +557,15 @@ public class ConscienceParser extends Parser {
 			else return visitor.visitChildren(this);
 		}
 	}
+	public static class BooleanExprContext extends ExprContext {
+		public TerminalNode BOOLEAN() { return getToken(ConscienceParser.BOOLEAN, 0); }
+		public BooleanExprContext(ExprContext ctx) { copyFrom(ctx); }
+		@Override
+		public <T> T accept(ParseTreeVisitor<? extends T> visitor) {
+			if ( visitor instanceof ConscienceVisitor ) return ((ConscienceVisitor<? extends T>)visitor).visitBooleanExpr(this);
+			else return visitor.visitChildren(this);
+		}
+	}
 
 	public final ExprContext expr() throws RecognitionException {
 		return expr(0);
@@ -565,7 +583,7 @@ public class ConscienceParser extends Parser {
 			int _alt;
 			enterOuterAlt(_localctx, 1);
 			{
-			setState(66);
+			setState(68);
 			_errHandler.sync(this);
 			switch (_input.LA(1)) {
 			case ID:
@@ -578,13 +596,31 @@ public class ConscienceParser extends Parser {
 				match(ID);
 				}
 				break;
-			case INT:
+			case INTEGER:
 				{
-				_localctx = new IntExprContext(_localctx);
+				_localctx = new IntegerExprContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
 				setState(61);
-				match(INT);
+				match(INTEGER);
+				}
+				break;
+			case STRING:
+				{
+				_localctx = new StringExprContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(62);
+				match(STRING);
+				}
+				break;
+			case BOOLEAN:
+				{
+				_localctx = new BooleanExprContext(_localctx);
+				_ctx = _localctx;
+				_prevctx = _localctx;
+				setState(63);
+				match(BOOLEAN);
 				}
 				break;
 			case T__13:
@@ -592,11 +628,11 @@ public class ConscienceParser extends Parser {
 				_localctx = new ParenExprContext(_localctx);
 				_ctx = _localctx;
 				_prevctx = _localctx;
-				setState(62);
-				match(T__13);
-				setState(63);
-				expr(0);
 				setState(64);
+				match(T__13);
+				setState(65);
+				expr(0);
+				setState(66);
 				match(T__14);
 				}
 				break;
@@ -604,7 +640,7 @@ public class ConscienceParser extends Parser {
 				throw new NoViableAltException(this);
 			}
 			_ctx.stop = _input.LT(-1);
-			setState(76);
+			setState(78);
 			_errHandler.sync(this);
 			_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
 			while ( _alt!=2 && _alt!=org.antlr.v4.runtime.atn.ATN.INVALID_ALT_NUMBER ) {
@@ -612,16 +648,16 @@ public class ConscienceParser extends Parser {
 					if ( _parseListeners!=null ) triggerExitRuleEvent();
 					_prevctx = _localctx;
 					{
-					setState(74);
+					setState(76);
 					_errHandler.sync(this);
 					switch ( getInterpreter().adaptivePredict(_input,3,_ctx) ) {
 					case 1:
 						{
 						_localctx = new MulDivModExprContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(68);
-						if (!(precpred(_ctx, 5))) throw new FailedPredicateException(this, "precpred(_ctx, 5)");
-						setState(69);
+						setState(70);
+						if (!(precpred(_ctx, 7))) throw new FailedPredicateException(this, "precpred(_ctx, 7)");
+						setState(71);
 						((MulDivModExprContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
 						if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << T__8) | (1L << T__9) | (1L << T__10))) != 0)) ) {
@@ -632,17 +668,17 @@ public class ConscienceParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						setState(70);
-						expr(6);
+						setState(72);
+						expr(8);
 						}
 						break;
 					case 2:
 						{
 						_localctx = new AddSubExprContext(new ExprContext(_parentctx, _parentState));
 						pushNewRecursionContext(_localctx, _startState, RULE_expr);
-						setState(71);
-						if (!(precpred(_ctx, 4))) throw new FailedPredicateException(this, "precpred(_ctx, 4)");
-						setState(72);
+						setState(73);
+						if (!(precpred(_ctx, 6))) throw new FailedPredicateException(this, "precpred(_ctx, 6)");
+						setState(74);
 						((AddSubExprContext)_localctx).op = _input.LT(1);
 						_la = _input.LA(1);
 						if ( !(_la==T__11 || _la==T__12) ) {
@@ -653,14 +689,14 @@ public class ConscienceParser extends Parser {
 							_errHandler.reportMatch(this);
 							consume();
 						}
-						setState(73);
-						expr(5);
+						setState(75);
+						expr(7);
 						}
 						break;
 					}
 					} 
 				}
-				setState(78);
+				setState(80);
 				_errHandler.sync(this);
 				_alt = getInterpreter().adaptivePredict(_input,4,_ctx);
 			}
@@ -687,34 +723,35 @@ public class ConscienceParser extends Parser {
 	private boolean expr_sempred(ExprContext _localctx, int predIndex) {
 		switch (predIndex) {
 		case 0:
-			return precpred(_ctx, 5);
+			return precpred(_ctx, 7);
 		case 1:
-			return precpred(_ctx, 4);
+			return precpred(_ctx, 6);
 		}
 		return true;
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\24R\4\2\t\2\4\3\t"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\26T\4\2\t\2\4\3\t"+
 		"\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\3\2\3\2\3\3"+
 		"\6\3\30\n\3\r\3\16\3\31\3\4\3\4\3\4\3\4\3\4\5\4!\n\4\3\5\3\5\3\5\3\5\3"+
 		"\5\3\5\3\6\3\6\3\6\3\6\3\6\3\7\3\7\3\7\3\7\3\b\3\b\3\b\3\b\3\b\3\b\3\t"+
-		"\3\t\3\t\3\t\3\t\3\t\3\n\3\n\3\n\3\n\3\n\3\n\3\n\5\nE\n\n\3\n\3\n\3\n"+
-		"\3\n\3\n\3\n\7\nM\n\n\f\n\16\nP\13\n\3\n\2\3\22\13\2\4\6\b\n\f\16\20\22"+
-		"\2\4\3\2\13\r\3\2\16\17\2Q\2\24\3\2\2\2\4\27\3\2\2\2\6 \3\2\2\2\b\"\3"+
-		"\2\2\2\n(\3\2\2\2\f-\3\2\2\2\16\61\3\2\2\2\20\67\3\2\2\2\22D\3\2\2\2\24"+
-		"\25\5\4\3\2\25\3\3\2\2\2\26\30\5\6\4\2\27\26\3\2\2\2\30\31\3\2\2\2\31"+
-		"\27\3\2\2\2\31\32\3\2\2\2\32\5\3\2\2\2\33!\5\b\5\2\34!\5\n\6\2\35!\5\f"+
-		"\7\2\36!\5\16\b\2\37!\5\20\t\2 \33\3\2\2\2 \34\3\2\2\2 \35\3\2\2\2 \36"+
-		"\3\2\2\2 \37\3\2\2\2!\7\3\2\2\2\"#\7\3\2\2#$\7\22\2\2$%\7\4\2\2%&\5\22"+
-		"\n\2&\'\7\5\2\2\'\t\3\2\2\2()\7\22\2\2)*\7\4\2\2*+\5\22\n\2+,\7\5\2\2"+
-		",\13\3\2\2\2-.\7\6\2\2./\5\22\n\2/\60\7\5\2\2\60\r\3\2\2\2\61\62\7\7\2"+
-		"\2\62\63\5\22\n\2\63\64\7\b\2\2\64\65\5\4\3\2\65\66\7\t\2\2\66\17\3\2"+
-		"\2\2\678\7\n\2\289\5\22\n\29:\7\b\2\2:;\5\4\3\2;<\7\t\2\2<\21\3\2\2\2"+
-		"=>\b\n\1\2>E\7\22\2\2?E\7\23\2\2@A\7\20\2\2AB\5\22\n\2BC\7\21\2\2CE\3"+
-		"\2\2\2D=\3\2\2\2D?\3\2\2\2D@\3\2\2\2EN\3\2\2\2FG\f\7\2\2GH\t\2\2\2HM\5"+
-		"\22\n\bIJ\f\6\2\2JK\t\3\2\2KM\5\22\n\7LF\3\2\2\2LI\3\2\2\2MP\3\2\2\2N"+
-		"L\3\2\2\2NO\3\2\2\2O\23\3\2\2\2PN\3\2\2\2\7\31 DLN";
+		"\3\t\3\t\3\t\3\t\3\t\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\3\n\5\nG\n\n\3\n"+
+		"\3\n\3\n\3\n\3\n\3\n\7\nO\n\n\f\n\16\nR\13\n\3\n\2\3\22\13\2\4\6\b\n\f"+
+		"\16\20\22\2\4\3\2\13\r\3\2\16\17\2U\2\24\3\2\2\2\4\27\3\2\2\2\6 \3\2\2"+
+		"\2\b\"\3\2\2\2\n(\3\2\2\2\f-\3\2\2\2\16\61\3\2\2\2\20\67\3\2\2\2\22F\3"+
+		"\2\2\2\24\25\5\4\3\2\25\3\3\2\2\2\26\30\5\6\4\2\27\26\3\2\2\2\30\31\3"+
+		"\2\2\2\31\27\3\2\2\2\31\32\3\2\2\2\32\5\3\2\2\2\33!\5\b\5\2\34!\5\n\6"+
+		"\2\35!\5\f\7\2\36!\5\16\b\2\37!\5\20\t\2 \33\3\2\2\2 \34\3\2\2\2 \35\3"+
+		"\2\2\2 \36\3\2\2\2 \37\3\2\2\2!\7\3\2\2\2\"#\7\3\2\2#$\7\25\2\2$%\7\4"+
+		"\2\2%&\5\22\n\2&\'\7\5\2\2\'\t\3\2\2\2()\7\25\2\2)*\7\4\2\2*+\5\22\n\2"+
+		"+,\7\5\2\2,\13\3\2\2\2-.\7\6\2\2./\5\22\n\2/\60\7\5\2\2\60\r\3\2\2\2\61"+
+		"\62\7\7\2\2\62\63\5\22\n\2\63\64\7\b\2\2\64\65\5\4\3\2\65\66\7\t\2\2\66"+
+		"\17\3\2\2\2\678\7\n\2\289\5\22\n\29:\7\b\2\2:;\5\4\3\2;<\7\t\2\2<\21\3"+
+		"\2\2\2=>\b\n\1\2>G\7\25\2\2?G\7\23\2\2@G\7\24\2\2AG\7\22\2\2BC\7\20\2"+
+		"\2CD\5\22\n\2DE\7\21\2\2EG\3\2\2\2F=\3\2\2\2F?\3\2\2\2F@\3\2\2\2FA\3\2"+
+		"\2\2FB\3\2\2\2GP\3\2\2\2HI\f\t\2\2IJ\t\2\2\2JO\5\22\n\nKL\f\b\2\2LM\t"+
+		"\3\2\2MO\5\22\n\tNH\3\2\2\2NK\3\2\2\2OR\3\2\2\2PN\3\2\2\2PQ\3\2\2\2Q\23"+
+		"\3\2\2\2RP\3\2\2\2\7\31 FNP";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {
