@@ -39,3 +39,4 @@ INTEGER : [0-9]+ ;
 STRING : '"' .*? '"' ;
 ID : [a-zA-Z]+ ;
 WS : [ \t\r\n] -> skip ;
+COMMENT : '/*' .*? '*/' -> skip ;

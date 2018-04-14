@@ -19,7 +19,7 @@ public class ConscienceParser extends Parser {
 		T__0=1, T__1=2, T__2=3, T__3=4, T__4=5, T__5=6, T__6=7, T__7=8, T__8=9, 
 		T__9=10, T__10=11, T__11=12, T__12=13, T__13=14, T__14=15, T__15=16, T__16=17, 
 		T__17=18, T__18=19, T__19=20, T__20=21, T__21=22, T__22=23, BOOLEAN=24, 
-		INTEGER=25, STRING=26, ID=27, WS=28;
+		INTEGER=25, STRING=26, ID=27, WS=28, COMMENT=29;
 	public static final int
 		RULE_file = 0, RULE_block = 1, RULE_stat = 2, RULE_assignStat = 3, RULE_mutateStat = 4, 
 		RULE_printStat = 5, RULE_ifStat = 6, RULE_whileStat = 7, RULE_fnDefStat = 8, 
@@ -37,7 +37,7 @@ public class ConscienceParser extends Parser {
 	private static final String[] _SYMBOLIC_NAMES = {
 		null, null, null, null, null, null, null, null, null, null, null, null, 
 		null, null, null, null, null, null, null, null, null, null, null, null, 
-		"BOOLEAN", "INTEGER", "STRING", "ID", "WS"
+		"BOOLEAN", "INTEGER", "STRING", "ID", "WS", "COMMENT"
 	};
 	public static final Vocabulary VOCABULARY = new VocabularyImpl(_LITERAL_NAMES, _SYMBOLIC_NAMES);
 
@@ -1039,7 +1039,7 @@ public class ConscienceParser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\36\u0087\4\2\t\2"+
+		"\3\u608b\ua72a\u8133\ub9ed\u417c\u3be7\u7786\u5964\3\37\u0087\4\2\t\2"+
 		"\4\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13"+
 		"\t\13\4\f\t\f\4\r\t\r\4\16\t\16\3\2\3\2\3\3\6\3 \n\3\r\3\16\3!\3\4\3\4"+
 		"\3\4\3\4\3\4\3\4\3\4\5\4+\n\4\3\5\3\5\3\5\3\5\3\5\3\5\3\6\3\6\3\6\3\6"+
